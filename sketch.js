@@ -22,7 +22,7 @@ function setup() {
   somDoJogo.loop();
 
   for( let i = 0; i < 20; i++ ){
-    particles.push(new Particle());
+    particles.push(new Particula());
   }
 }
 

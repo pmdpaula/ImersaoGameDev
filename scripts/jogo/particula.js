@@ -1,4 +1,4 @@
-class Particle {
+class Particula {
   // setting the co-ordinates, radius and the
   // speed of a particle in both the co-ordinates axes.
   constructor(){
