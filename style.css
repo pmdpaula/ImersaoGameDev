@@ -1,6 +1,6 @@
 :root {
-  --shadow-color: lightgreen;
-  --shadow-color-light: green;
+  --shadow-color: rgb(238, 216, 144);
+  --shadow-color-light: orange;
 }
 
 * {
@@ -9,23 +9,31 @@
   box-sizing: border-box;
 }
 
+html, body {
+  /* height: 100%; */
+}
+
 body {
   margin: 0;
-  padding: 0;
-  display: grid;
+  /* display: grid; */
   font-family: "Archivo", sans-serif;
   background-color: #192824;
+  background-image: url("imagens/cenario/bkg_halloween_03.jpg");
+  background-repeat: no-repeat;
+  background-size: 1920px 1080px;
+  background-position: left top;
+  background-attachment: fixed;
 }
 
 
-canvas {
+/* canvas {
   display: block;
-}
+} */
 
 .quadro_jogo {
-  display: grid;
-  justify-content: center;
-  align-items: center;
+  /* display: grid; */
+  /* justify-content: center; */
+  /* align-items: center; */
   padding: 0.5em;
   border: 2.5em;
   border-color: darkgreen;
@@ -44,7 +52,7 @@ p {
   text-transform: uppercase;
   display: block;
   height: auto;
-  color: #192824;
+  color: darkorange;
   animation: neon 3s infinite;
 }
 
