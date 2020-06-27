@@ -1,11 +1,14 @@
 class Personagem extends Animacao {
-  constructor(imagem, spritesImagem, x, largura, altura) {
-    super(imagem, spritesImagem, x, largura, altura)
+  constructor(heroi) {
+    super(heroi)
 
-    this.yInicial = height - this.altura;
+    this.nome   = heroi.nome;
+    this.yInicial = height - heroi.alturaTela - heroi.distanciaDoChao;
+    this.distanciaDoChao = heroi.distanciaDoChao;
     this.y = this.yInicial;
     this.velocidadeDoPulo = 0;
-    this.gravidade = 1.4;
+    this.alturaDoPulo = -26;
+    this.gravidade =  1.25;
     this.PulosMax = 2;
     this.Pulos = 0;
     this.somDoPulo = loadSound('sons/jump_04.wav');
@@ -14,10 +17,23 @@ class Personagem extends Animacao {
     this.somDoPouso = loadSound('sons/jumpland01.mp3');
   };
 
+
   pula() {
     if ( this.Pulos < this.PulosMax ) {
       this.somDoPulo.play();
-      this.velocidadeDoPulo = -22;
+
+      if ( width > 1200 ) {
+        this.velocidadeDoPulo = this.alturaDoPulo
+      }
+      else if ( width <= 1200 && width > 1000) {
+        this.velocidadeDoPulo = this.alturaDoPulo + 4
+      }
+      else {
+        this.velocidadeDoPulo = this.alturaDoPulo + 8
+      }
+
+// console.log(`this.velocidadeDoPulo: ${this.velocidadeDoPulo}`);
+
       this.Pulos++;
       if ( this.Pulos === 2 ) this.somDoPuloDuplo.play();
     }
@@ -26,41 +42,67 @@ class Personagem extends Animacao {
     }
   }
 
+
   aplicaGravidade() {
-    this.y = this.y + this.velocidadeDoPulo;
-    
-    this.velocidadeDoPulo = this.velocidadeDoPulo + this.gravidade;
-    if ( this.Pulos === 1 && this.velocidadeDoPulo > 0.3 ) this.Pulos++
-    
-    if ( this.y > this.yInicial ) {
-      this.y = this.yInicial;
-      if ( this.Pulos !== 0 ) this.somDoPouso.play();
-      this.Pulos = 0;
+    if ( this.velocidadeDoPulo !== 0 ) {
+      this.y = this.y + this.velocidadeDoPulo;
+      
+      this.velocidadeDoPulo = this.velocidadeDoPulo + this.gravidade;
+      if ( this.Pulos === 1 && this.velocidadeDoPulo > 0.3 ) this.Pulos++
+      
+      if ( this.y > this.yInicial ) {
+        this.y = this.yInicial;
+        if ( this.Pulos !== 0 ) this.somDoPouso.play();
+        this.velocidadeDoPulo = 0;
+        this.Pulos = 0;
+      }
     }
   }
 
   estaColidindo(inimigo) {
-    // noFill();
-    const precisao = 0.7
-    // rect(this.x,
-    //   this.y,
-    //   this.largura * precisao,
-    //   this.altura * 0.8);
-    // rect(
-    //   inimigo.x,
-    //   inimigo.y,
-    //   inimigo.largura * precisao,
-    //   inimigo.altura * precisao
-    // );
-    const colisao = collideRectRect(
-      this.x,
-      this.y,
-      this.largura * precisao,
-      this.altura * 0.8,
-      inimigo.x,
-      inimigo.y,
+    stroke('#fae');
+    strokeWeight(4);
+    noFill();
+    const precisao = 0.75
+    rect(
+      this.x + (this.largura * (1 - precisao)), // x
+      this.y + (this.altura * (1 - precisao)),  // y
+      this.largura * precisao,                  // largura
+      this.altura * precisao,                   // altura
+      // 40,
+      // 40,
+      // 15,
+      // 15,
+    );
+    rect(
+      inimigo.x + (inimigo.largura * (1 - precisao)),
+      inimigo.y + (inimigo.altura * (1 - precisao)),
       inimigo.largura * precisao,
-      inimigo.altura * precisao
+      inimigo.altura * precisao,
+      // 40,
+      // 40,
+      // 15,
+      // 15,
+    );
+
+
+    const colisao = collideRectRect(
+      this.x + (this.largura * (1 - precisao)),
+      this.y + (this.altura * (1 - precisao)),
+      this.largura * precisao,
+      this.altura * precisao,
+      // 40,
+      // 40,
+      // 15,
+      // 15,
+      inimigo.x + (inimigo.largura * (1 - precisao)),
+      inimigo.y + (inimigo.altura * (1 - precisao)),
+      inimigo.largura * precisao,
+      inimigo.altura * precisao,
+      // 40,
+      // 40,
+      // 15,
+      // 15,
     );
     
     return colisao;

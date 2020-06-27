@@ -1,16 +1,21 @@
 class Animacao {
-  constructor(imagem, spritesImagem, x, largura, altura) {
-    this.matriz        = null;
-    this.spritesImagem = spritesImagem;
-    this.imagem        = imagem;
-    this.largura       = largura;
-    this.altura        = altura;
-    this.x             = x;
-    this.y             = height - this.altura;
-    this.larguraSprite = this.imagem.width / this.spritesImagem[0];
-    this.alturaSprite  = this.imagem.height / this.spritesImagem[1];
+  constructor(personagem) {
 
-    this.frameAtual    = 0;
+    this.matriz           = null;
+    this.spritesImagem    = personagem.spritesImagem;
+    // this.imagem           = loadImage(personagem.NomeImagem);
+    this.imagem           = personagem.imagem;
+    this.largura          = personagem.larguraTela;
+    this.altura           = personagem.alturaTela;
+    this.x                = personagem.posX;
+    this.distanciaDoChao  = personagem.distanciaDoChao;
+    this.y                = height - this.altura - this.distanciaDoChao;
+    this.larguraSprite    = this.imagem.width / this.spritesImagem[0];
+    this.alturaSprite     = this.imagem.height / this.spritesImagem[1];
+
+    this.frameAtual       = 0;
+// console.log(personagem);
+
   }
 
   exibe() {
@@ -31,18 +36,19 @@ class Animacao {
   }
 
   exibeGray() {
-    this.criaMatriz();
+    // this.criaMatriz();
 
-    image(this.imagem,
-          this.x,
-          this.y,
-          this.largura,
-          this.altura,
-          this.matriz[this.frameAtual][0],
-          this.matriz[this.frameAtual][1],
-          this.larguraSprite,
-          this.alturaSprite
-    );
+    // image(this.imagem,
+    //       this.x,
+    //       this.y,
+    //       this.largura,
+    //       this.altura,
+    //       this.matriz[this.frameAtual][0],
+    //       this.matriz[this.frameAtual][1],
+    //       this.larguraSprite,
+    //       this.alturaSprite
+    // );
+    // this.imagem;
     filter(GRAY);
   }
 

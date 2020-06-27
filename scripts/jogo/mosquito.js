@@ -3,11 +3,8 @@ class Mosquito {
     this.matriz        = null;
     this.spritesImagem = [4,2];
     this.imagem        = loadImage('imagens/personagem/flyer_0.png');
-// console.log(this.imagem.width);
     this.x = random(0,width);
     this.y = random(0,height);
-    // this.larguraSprite = this.imagem.width / this.spritesImagem[0];
-    // this.alturaSprite  = this.imagem.height / this.spritesImagem[1];
     this.larguraSprite = 32;
     this.alturaSprite  = 64;
     this.largura       = this.larguraSprite;
@@ -19,15 +16,9 @@ class Mosquito {
     this.frameAtual = 0;
   }
 
-  // createParticle() {
-  //   noStroke();
-  //   fill('darkorange');
-  //   circle(this.x,this.y,this.d);
-  // }
 
   exibe() {
     this.criaMatriz();
-// console.log(this.matriz);
 
     image(this.imagem,
           this.x,

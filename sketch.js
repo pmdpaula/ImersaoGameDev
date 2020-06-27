@@ -1,50 +1,70 @@
-let execucao = 0;
 
-let imagemCenario;
-let imagemPersonagem;
-// let imagemInimigo;
+let cnv;
 let somDoJogo;
-// let somDoPulo;
 let somColisao;
 let somGameOver;
 let heroi;
-let inimigo;
+let pontuacao;
+let moeda;
+// let inimigo;
+// let inimigoGrande;
+// let inimigoVoador;
+// let inimigoVoador2;
+
 let particles = [];
 let mosquitos = [];
 let moscas = [];
-let fimJogo;
+let fimJogoGota;
+let imagemFimJogoGota;
+let fimJogoTroll;
+let imagemFimJogoTroll;
+let isLooping = true;
+let Inimigos = [];
+let Stuffs = [];
 
-let personagemHeroi = {
-  imagem: null,           //** Será calculado mais a frente
-  alturaTela: null,       //** Será calculado mais a frente
-  larguraTela: null,      //** Será calculado mais a frente
-  spritesImagem: [4, 4],  //** colunas, linhas
-  matriz: [],
-}
 
-let personagemInimigo = {
-  imagem: null,           //** Será calculado mais a frente
-  alturaTela: null,       //** Será calculado mais a frente
-  larguraTela: null,      //** Será calculado mais a frente
-  spritesImagem: [4, 7],  //** colunas, linhas 
-  velocidade: 8,
-  matriz: [],
-}
+
+
+let arrDefInimigos = [
+  personagemInimigo,
+  personagemInimigoGrande,
+  personagemInimigoVoador,
+  // personagemInimigoVoador2,
+]
+
+
+let arrDefStuffs = [
+  stuffMoeda,
+  stuffCoracao,
+]
+
+
 
 
 function preload() {
-  imagemCenario = loadImage('imagens/cenario/floresta.png');
-  imagemHeroi = loadImage('imagens/personagem/correndo.png');
-  personagemHeroi.imagem = loadImage('imagens/personagem/correndo.png');
-  personagemInimigo.imagem = loadImage('imagens/inimigos/gotinha.png');
-  somDoJogo = loadSound('sons/trilha_jogo.mp3');
-  // somDoPulo = loadSound('sons/jump_05.wav');
+  // imagemCenario = loadImage('imagens/cenario/floresta.png');
+  // imagemHeroi = loadImage(personagemHeroi.nomeImagem);
+  personagemHeroi.imagem = loadImage(personagemHeroi.nomeImagem);
+
+  arrDefInimigos.forEach(inimigo => {
+    inimigo.imagem = loadImage(inimigo.nomeImagem);
+  })
+
+  arrDefStuffs.forEach(stuff => {
+    stuff.imagem = loadImage(stuff.nomeImagem);
+  })
+
+  // imagemGameOverGota = loadImage('imagens/inimigos/gotinha-voadora.png');
+  imagemFimJogoGota = loadImage('imagens/assets/gameover_gota.png')
+  imagemFimJogoTroll = loadImage('imagens/assets/gameover_troll.png')
+  somDoJogo = loadSound('sons/trilha_jogo02.wav');
   somColisao = loadSound('sons/colisao.ogg');
   somGameOver = loadSound('sons/game-over.mp3');
+  somDaMoeda = loadSound('sons/moedas.flac')
 }
 
-let cnv;
-let bordas;
+
+
 
 function centerObject(obj) {
   var x = (windowWidth - width) / 2;
@@ -52,90 +72,233 @@ function centerObject(obj) {
   obj.position(x, y);
 }
 
+
+
+
+function defCanvasJogo() {
+  let isLandscape = windowWidth > windowHeight ? true : false
+  let fatorProporcao = 0.7
+  let bordas = isLandscape ? [15, 200] : [10, 180]
+  let maxLargura = windowHeight * ( 1 + (1 - fatorProporcao) )
+  let maxAltura = windowWidth * fatorProporcao;
+  let canvasLargura, canvasAltura;
+
+  if ( isLandscape ) {
+    canvasLargura = windowWidth > maxLargura ? maxLargura : windowWidth
+    canvasAltura  = windowHeight > maxAltura ? maxAltura : windowHeight
+  }
+  // canvasLargura = isLandscape ? windowWidth : 900;
+  // canvasAltura  = isLandscape ? windowWidth * 0.7 : 900;
+  let canvas = createCanvas(canvasLargura - bordas[0], canvasAltura - bordas[1]);
+
+  let proporcao = isLandscape ? windowWidth/windowHeight : windowHeight/windowWidth
+console.log(`isLandscape: ${isLandscape} proporção: ${proporcao}`);
+console.log(`windowWidth: ${windowWidth} - windowHeight ${windowHeight}`);
+console.log(`width: ${width}  height: ${height}`);
+
+  return canvas;
+}
+
+
+
+
+function defObjetcsOnCene() {
+  personagemHeroi.alturaTela = height * 0.25;
+  personagemHeroi.larguraTela = Math.round(personagemHeroi.alturaTela * 0.815);
+
+  arrDefInimigos.forEach(inimigo => {
+    inimigo.alturaTela  = height * inimigo.fatorAlturaTela;
+    inimigo.larguraTela = inimigo.alturaTela * inimigo.fatorLarguraTela;
+
+    if ( typeof inimigo.delay === 'object' ) inimigo.delay = random(inimigo.delay[0], inimigo.delay[1])
+  })
+
+  arrDefStuffs.forEach(stuff => {
+    stuff.alturaTela  = height * stuff.fatorAlturaTela;
+    stuff.larguraTela = stuff.alturaTela * stuff.fatorLarguraTela;
+
+    if ( typeof stuff.delay === 'object' ) stuff.delay = random(stuff.delay[0], stuff.delay[1])
+  })
+
+  cenario = new CenarioHalloween(20);
+  heroi   = new Personagem(personagemHeroi);
+  Inimigos = arrDefInimigos.map(inimigo => {
+    return new Inimigo(inimigo)
+  })
+
+  moeda = new Moeda(arrDefStuffs[0])
+}
+
+
+
+
+
 function setup() {
-  bordas = windowWidth > windowHeight ? [160, 200] : [40, 180]
-  cnv = createCanvas(windowWidth - bordas[0], windowHeight - bordas[1]);
+  cnv = defCanvasJogo();
+
   centerObject(cnv);
-  
+
   cnv.style('display', 'block');
   cnv.parent('sketch-holder');
 
-  personagemHeroi.alturaTela = height * 0.25;
-  personagemHeroi.larguraTela = Math.round(( (height * 0.25) * 0.815 ));
-
-  personagemInimigo.alturaTela = height * 0.10;
-  personagemInimigo.larguraTela = personagemInimigo.alturaTela;
+  defObjetcsOnCene()
 
   // cenario = new Cenario(imagemCenario, 3);
-  cenario = new CenarioHalloween(20);
-  heroi   = new Personagem(personagemHeroi.imagem, personagemHeroi.spritesImagem, 0, personagemHeroi.larguraTela, personagemHeroi.alturaTela);
-  inimigo = new Inimigo(personagemInimigo.imagem, personagemInimigo.spritesImagem, width - personagemInimigo.larguraTela, personagemInimigo.larguraTela, personagemInimigo.alturaTela, personagemInimigo.velocidade);
-  // mosquito = new Mosquito();
-  // mosquito = new Mosquito(width - personagemInimigo.larguraTela, personagemInimigo.larguraTela, personagemInimigo.alturaTela, personagemInimigo.velocidade);
+  pontuacao = new Pontuacao();
 
-  fimJogo = new FimJogo();
+  fimJogoGota = new FimJogo(imagemFimJogoGota);
+  fimJogoTroll = new FimJogo(imagemFimJogoTroll);
+  // fimJogoGota = new FimJogo(Inimigos.filter(inimigo => inimigo.nome === 'gota'; return inimigo.nome ));
+  // fimJogoTroll = new FimJogo(Inimigos.find(inimigo => inimigo.nome === 'troll'; return inimigo.nome ));
 
-  frameRate(28);     // O frameRate padrão é por volta de 30. Caso queiramos mudar, colocamos essa função.
+  frameRate(30);     // O frameRate padrão é por volta de 30. Caso queiramos mudar, colocamos essa função.
+
   somDoJogo.loop();
 
   for( let i = 0; i < random(3,6); i++ ){
     moscas.push(mosca = new Mosca());
   }
-  // for( let i = 0; i < 10; i++ ){
-  //   mosquitos.push(mosquito = new Mosquito());
-  // }
-
   // for( let i = 0; i < 20; i++ ){
   //   particles.push(new Particula());
   // }
 }
 
 
+
+
+
+
 function windowResized() {
+  // cnv = defCanvasJogo();
   centerObject(cnv);
+
+  // defObjetcsOnCene()
 }
+
+
+
+
+
+
+
+
+function toogleLoop() {
+  isLooping = !isLooping;
+  if ( isLooping ) {
+    loop();
+  } 
+  else {
+    noLoop();
+  }
+}
+
+
+
+
+
+
 
 
 function keyPressed() {
-  if ( key === 'ArrowUp' || key === ' '  ) {
-    heroi.pula();
-    // somDoPulo.play();
+  if ( key === 'ArrowUp' && isLooping ) heroi.pula();
+
+  if ( key === ' ' ) {
+    toogleLoop()
   }
+    
 }
+
+
+
+
+
+
+// function fimJogo(nomeInimigo) {
+//   // somColisao.play();
+//   // cenario.exibeGray();
+//   // heroi.exibeGray();
+//   filter(GRAY);
+//   // somDoJogo.pause();
+  
+//   Inimigos.forEach(inimigo => {
+//     if ( inimigo.nome === nomeInimigo ) {
+//       inimigo.exibeGray();
+//     }
+//     else {
+//       inimigo.exibe();
+//     }  
+//   })
+  
+//   noLoop();
+// }
+
+
+
 
 
 function draw() {
   cenario.exibe();
   cenario.move();
 
+  pontuacao.exibe();
+  pontuacao.adicionarPontos()
+
   heroi.exibe();
   heroi.aplicaGravidade();
+  
+  moeda.exibe()
+  moeda.move()
+  
+  if ( heroi.estaColidindo(moeda) ) {
+    // fimJogo(stuff.nome);
+    somDaMoeda.play();
+    console.log(`colidindo com ${moeda.nome}`);
+    
+    // noLoop();
+    // filter(GRAY);
 
-  inimigo.exibe();
-  inimigo.move();
-
-  // mosquito.exibe();
-  // mosquito.move();
-
-  if ( heroi.estaColidindo(inimigo) ) {
-    cenario.exibeGray();
-    heroi.exibeGray();
-    inimigo.exibe();
-    somDoJogo.pause();
-    somColisao.play();
-    noLoop();
-    fimJogo.exibe();
-    somGameOver.play();
+    pontuacao.adicionarPontosMoeda()
+    moeda.pegaMoeda()
   }
+
+
+
+  Inimigos.forEach(inimigo => {
+    inimigo.exibe()
+    inimigo.move()
+
+    if ( heroi.estaColidindo(inimigo) ) {
+      // fimJogo(inimigo.nome);
+      somColisao.play();
+      console.log(`colidindo com ${inimigo.nome}`);
+      
+      // noLoop();
+      filter(GRAY);
+
+      if ( inimigo.nome === 'gota' || inimigo.nome === 'gota voadora' ) {
+        fimJogoGota.exibe();
+      }
+      else {
+        fimJogoTroll.exibe()
+      }
+      // cenario.exibeGray();
+      // heroi.exibeGray();
+      // inimigo.exibe();
+      // somDoJogo.pause();
+
+    }
+  })
+
+
+
+
+
+
 
   for( let i = 0; i < moscas.length; i++ ) {
     moscas[i].exibe();
     moscas[i].moveParticle();
   }
-  // for( let i = 0; i < mosquitos.length; i++ ) {
-  //   mosquitos[i].exibe();
-  //   mosquitos[i].moveParticle();
-  // }
 
   // for( let i = 0; i < particles.length; i++ ) {
   //   particles[i].createParticle();

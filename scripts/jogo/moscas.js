@@ -3,7 +3,6 @@ class Mosca {
     this.matriz        = null;
     this.spritesImagem = [16,1];
     this.imagem        = loadImage('imagens/insetos/fly_idle.png');
-// console.log(this.imagem.width);
     this.x = random(0,width);
     this.y = random(0,height);
     this.larguraSprite = this.imagem.width / this.spritesImagem[0];
@@ -19,15 +18,9 @@ class Mosca {
     this.frameAtual = 0;
   }
 
-  // createParticle() {
-  //   noStroke();
-  //   fill('darkorange');
-  //   circle(this.x,this.y,this.d);
-  // }
 
   exibe() {
     this.criaMatriz();
-// console.log(this.matriz);
 
     image(this.imagem,
           this.x,
