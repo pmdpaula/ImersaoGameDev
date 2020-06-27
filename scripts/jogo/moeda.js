@@ -25,7 +25,7 @@ class Moeda extends Animacao {
 
 
   pegaMoeda() {
-    this.x = -50
+    this.x = -150
   }
 }
 

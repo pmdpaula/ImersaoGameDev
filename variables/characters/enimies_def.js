@@ -5,7 +5,7 @@ let personagemInimigo = {
   alturaTela: null,       //** Será calculado mais a frente
   larguraTela: null,      //** Será calculado mais a frente
   posX: 0,
-  distanciaDoChao: 50,
+  distanciaDoChao: 0,
   fatorAlturaTela: 0.1,
   fatorLarguraTela: 1,
   spritesImagem: [4, 7],  //** colunas, linhas 
@@ -21,7 +21,7 @@ let personagemInimigoGrande = {
   alturaTela: null,       //** Será calculado mais a frente
   larguraTela: null,      //** Será calculado mais a frente
   posX: 0,
-  distanciaDoChao: 5,
+  distanciaDoChao: -58,
   fatorAlturaTela: 0.4,
   fatorLarguraTela: 1,
   spritesImagem: [5, 6],  //** colunas, linhas 
@@ -37,7 +37,7 @@ let personagemInimigoVoador = {
   alturaTela: null,       //** Será calculado mais a frente
   larguraTela: null,      //** Será calculado mais a frente
   posX: 0,
-  distanciaDoChao: 270,
+  distanciaDoChao: 250,
   fatorAlturaTela: 0.15,
   fatorLarguraTela: 1.25,
   spritesImagem: [3, 6],  //** colunas, linhas 
