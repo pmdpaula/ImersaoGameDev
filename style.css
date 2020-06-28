@@ -21,10 +21,19 @@ body {
   background-image: url("imagens/cenario/bkg_halloween_03.jpg");
   background-repeat: no-repeat;
   background-size: 1920px 1080px;
-  background-position: left top;
+  background-position: center;
   background-attachment: fixed;
 }
 
+.hero-image {
+  background-image: url("imagens/cenario/bkg_halloween_03.jpg");
+  background-color: #192824;
+  height: 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: relative;
+}
 
 /* canvas {
   display: block;
@@ -34,8 +43,8 @@ body {
   /* display: grid; */
   /* justify-content: center; */
   /* align-items: center; */
-  padding: 0.5em;
-  border: 2.5em;
+  padding-top: 1.5em;
+  /* border: 2.0em; */
   border-color: darkgreen;
 }
 

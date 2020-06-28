@@ -27,8 +27,34 @@ let imagemFimJogoTroll;
 let isLooping = true;
 let Inimigos = [];
 let Stuffs = [];
-let distanciaDoChao = 100;
-let canvasLargura = 2000;
+let posicaoDoChao = 100;
+let canvasSizes = [
+  {
+    cnvCod: 'xl-l',
+    cnvW:   1600,
+    cnvH: 1600 * 0.55,
+  },
+  
+  {
+    cnvCod: 'lg-l',
+    cnvW:   1300,
+    cnvH: 1300 * 0.55,
+  },
+
+  {
+    cnvCod: 'md-l',
+    cnvW:   1000,
+    cnvH: 1000 * 0.55,
+  },
+
+  {
+    cnvCod: 'sm-l',
+    cnvW:   800,
+    cnvH: 800 * 0.7,
+  },
+
+];
+let canvasSize = [];
 
 
 
@@ -87,25 +113,52 @@ function centerObject(obj) {
 
 function defCanvasJogo() {
   let isLandscape = windowWidth > windowHeight ? true : false
+
   let fatorProporcao = [0.52 , 1.7]
-  let bordas = isLandscape ? [50, 200] : [20, 180]
-  let canvasAltura;
+  // let bordas = isLandscape ? [50, 400] : [20, 180]
 
+  // canvasSizes.forEach((sizes, index) => {
+  // for ( let i = 0; i < canvasSizes.length; i++ ) {
   if ( isLandscape ) {
-    // canvasLargura = windowWidth - bordas[0]
-    // canvasLargura = 2200
-    canvasAltura  = canvasLargura * fatorProporcao[0] - bordas[1]
+    if ( windowWidth >= canvasSizes[0].cnvW ) {
+      canvasSize = canvasSizes[0]
+      posicaoDoChao = 100
+    }
+    else if ( windowWidth >= canvasSizes[1].cnvW && windowWidth < canvasSizes[0].cnvW ) {
+      canvasSize = canvasSizes[1]
+      posicaoDoChao = 84
+    }
+    else if ( windowWidth >= canvasSizes[2].cnvW && windowWidth < canvasSizes[1].cnvW ) {
+      canvasSize = canvasSizes[2]
+      posicaoDoChao = 62
+    }
+    else {
+      canvasSize = canvasSizes[3]
+      posicaoDoChao = 62
+    }
   }
-  else {
-    canvasAltura  = windowHeight * fatorProporcao[1] - bordas[1]
-    canvasLargura = canvasAltura - bordas[0]
-  }
-  let canvas = createCanvas(canvasLargura, canvasAltura);
+  // }
 
-  let proporcao = isLandscape ? canvasLargura/canvasAltura : canvasAltura/canvasLargura
+  // })
+
+  // if ( isLandscape ) {
+  //   // canvasLargura = windowWidth - bordas[0]
+  //   // canvasLargura = 2200
+  //   // if ( windowWidth >  )
+  //   canvasAltura = canvasLargura * fatorProporcao[0] - bordas[1]
+  // }
+  // else {
+  //   canvasAltura  = windowHeight * fatorProporcao[1] - bordas[1]
+  //   canvasLargura = canvasAltura - bordas[0]
+  // }
+  let canvas = createCanvas(canvasSize.cnvW, canvasSize.cnvH);
+
+  let proporcao = isLandscape ? canvasSize.cnvW/canvasSize.cnvH : canvasSize.cnvH/canvasSize.cnvW
 console.log(`isLandscape: ${isLandscape} proporção: ${proporcao}`);
 console.log(`windowWidth: ${windowWidth} - windowHeight ${windowHeight}`);
-console.log(`width: ${canvasLargura}  height: ${canvasAltura}`);
+console.log(`width: ${canvasSize.cnvW}  height: ${canvasSize.cnvH} - ${canvasSize.cnvCod}`);
+
+
 
   return canvas;
 }
@@ -119,22 +172,94 @@ function defObjetcsOnCene() {
 
   personagemHeroi.alturaTela = height * 0.25;
   personagemHeroi.larguraTela = Math.round(personagemHeroi.alturaTela * 0.815);
-  personagemHeroi.distanciaDoChao = personagemHeroi.distanciaDoChao + distanciaDoChao;
+  personagemHeroi.distanciaDoChao = personagemHeroi.distanciaDoChao + posicaoDoChao;
 
   arrDefInimigos.forEach(inimigo => {
-    inimigo.alturaTela  = height * inimigo.fatorAlturaTela;
-    inimigo.larguraTela = inimigo.alturaTela * inimigo.fatorLarguraTela;
-    inimigo.distanciaDoChao = inimigo.distanciaDoChao + distanciaDoChao;
+    if ( canvasSize.cnvCod === 'xl-l' ) {
+      inimigo.alturaTela  = height * inimigo.fatorAlturaTela;
+      inimigo.larguraTela = inimigo.alturaTela * inimigo.fatorLarguraTela;
+      inimigo.distanciaDoChao = inimigo.distanciaDoChao + posicaoDoChao;
+  
+      if ( typeof inimigo.delay === 'object' ) inimigo.delay = random(inimigo.delay[0], inimigo.delay[1])
+    }
 
-    if ( typeof inimigo.delay === 'object' ) inimigo.delay = random(inimigo.delay[0], inimigo.delay[1])
+    else if ( canvasSize.cnvCod === 'lg-l' ) {
+      inimigo.alturaTela  = height * inimigo.fatorAlturaTela;
+      inimigo.larguraTela = inimigo.alturaTela * inimigo.fatorLarguraTela;
+      inimigo.distanciaDoChao = inimigo.distanciaDoChao + posicaoDoChao + 4;
+  
+      if ( typeof inimigo.delay === 'object' ) inimigo.delay = random(inimigo.delay[0], inimigo.delay[1])
+    }
+
+    else if ( canvasSize.cnvCod === 'md-l' ) {
+      inimigo.alturaTela  = height * inimigo.fatorAlturaTela;
+      inimigo.larguraTela = inimigo.alturaTela * inimigo.fatorLarguraTela;
+
+      if ( inimigo.nome === 'troll' ) {
+        inimigo.distanciaDoChao = inimigo.distanciaDoChao + posicaoDoChao + 24 ;
+      }
+      else if ( inimigo.nome === 'gota voadora' )  {
+        inimigo.distanciaDoChao = inimigo.distanciaDoChao + posicaoDoChao - 28 ;
+      }
+      else {
+        inimigo.distanciaDoChao = inimigo.distanciaDoChao + posicaoDoChao + 8;
+      }
+  
+      if ( typeof inimigo.delay === 'object' ) inimigo.delay = random(inimigo.delay[0], inimigo.delay[1])
+    }
+
+    else if ( canvasSize.cnvCod === 'sm-l' ) {
+      inimigo.alturaTela  = height * inimigo.fatorAlturaTela;
+      inimigo.larguraTela = inimigo.alturaTela * inimigo.fatorLarguraTela;
+
+      if ( inimigo.nome === 'troll' ) {
+        inimigo.distanciaDoChao = inimigo.distanciaDoChao + posicaoDoChao + 24 ;
+      }
+      else if ( inimigo.nome === 'gota voadora' )  {
+        inimigo.distanciaDoChao = inimigo.distanciaDoChao + posicaoDoChao - 28 ;
+      }
+      else {
+        inimigo.distanciaDoChao = inimigo.distanciaDoChao + posicaoDoChao + 8;
+      }
+    
+      if ( typeof inimigo.delay === 'object' ) inimigo.delay = random(inimigo.delay[0], inimigo.delay[1])
+    }
+// console.log(inimigo );
+
   })
 
-  arrDefStuffs.forEach(stuff => {
-    stuff.alturaTela  = height * stuff.fatorAlturaTela;
-    stuff.larguraTela = stuff.alturaTela * stuff.fatorLarguraTela;
-    stuff.distanciaDoChao = stuff.distanciaDoChao + distanciaDoChao;
 
-    if ( typeof stuff.delay === 'object' ) stuff.delay = random(stuff.delay[0], stuff.delay[1])
+
+  arrDefStuffs.forEach(stuff => {
+    if ( canvasSize.cnvCod === 'xl-l' ) {
+      stuff.alturaTela  = height * stuff.fatorAlturaTela;
+      stuff.larguraTela = stuff.alturaTela * stuff.fatorLarguraTela;
+      stuff.distanciaDoChao = stuff.distanciaDoChao + posicaoDoChao;
+  
+      if ( typeof stuff.delay === 'object' ) stuff.delay = random(stuff.delay[0], stuff.delay[1])
+    }
+    if ( canvasSize.cnvCod === 'lg-l' ) {
+      stuff.alturaTela  = height * stuff.fatorAlturaTela;
+      stuff.larguraTela = stuff.alturaTela * stuff.fatorLarguraTela;
+      stuff.distanciaDoChao = stuff.distanciaDoChao + posicaoDoChao - 30;
+  
+      if ( typeof stuff.delay === 'object' ) stuff.delay = random(stuff.delay[0], stuff.delay[1])
+    }
+    if ( canvasSize.cnvCod === 'md-l' ) {
+      stuff.alturaTela  = height * stuff.fatorAlturaTela;
+      stuff.larguraTela = stuff.alturaTela * stuff.fatorLarguraTela;
+      stuff.distanciaDoChao = stuff.distanciaDoChao + posicaoDoChao - 90;
+  
+      if ( typeof stuff.delay === 'object' ) stuff.delay = random(stuff.delay[0], stuff.delay[1])
+    }
+    if ( canvasSize.cnvCod === 'sm-l' ) {
+      stuff.alturaTela  = height * stuff.fatorAlturaTela;
+      stuff.larguraTela = stuff.alturaTela * stuff.fatorLarguraTela;
+      stuff.distanciaDoChao = stuff.distanciaDoChao + posicaoDoChao - 120;
+  
+      if ( typeof stuff.delay === 'object' ) stuff.delay = random(stuff.delay[0], stuff.delay[1])
+    }
+
   })
 
 

@@ -7,30 +7,47 @@ class Personagem extends Animacao {
     this.distanciaDoChao = heroi.distanciaDoChao;
     this.y = this.yInicial;
     this.velocidadeDoPulo = 0;
-    this.alturaDoPulo = -26;
-    this.gravidade =  1.25;
     this.PulosMax = 2;
     this.Pulos = 0;
     this.somDoPulo = loadSound('sons/jump_04.wav');
     this.somDoPuloDuplo = loadSound('sons/jump_05.wav');
     this.somFalhaDoPulo = loadSound('sons/jumpfail01.wav');
     this.somDoPouso = loadSound('sons/jumpland01.mp3');
+
+    if ( canvasSize.cnvCod === 'xl-l' ) {
+      this.alturaDoPulo = -26;
+      this.gravidade =  1.3;  
+    }
+    else if ( canvasSize.cnvCod === 'lg-l' ) {
+      this.alturaDoPulo = -22;
+      this.gravidade =  1.08;  
+    }
+    else if ( canvasSize.cnvCod === 'md-l' ) {
+      this.alturaDoPulo = -20;
+      this.gravidade =  1.15;  
+    }
+    else if ( canvasSize.cnvCod === 'sm-l' ) {
+      this.alturaDoPulo = -19;
+      this.gravidade =  1.02;  
+    }
+
+
   };
 
 
   pula() {
     if ( this.Pulos < this.PulosMax ) {
       this.somDoPulo.play();
-
-      if ( width > 1200 ) {
-        this.velocidadeDoPulo = this.alturaDoPulo
-      }
-      else if ( width <= 1200 && width > 1000) {
-        this.velocidadeDoPulo = this.alturaDoPulo + 4
-      }
-      else {
-        this.velocidadeDoPulo = this.alturaDoPulo + 8
-      }
+      this.velocidadeDoPulo = this.alturaDoPulo
+      // if ( width > 1200 ) {
+        
+      // }
+      // else if ( width <= 1200 && width > 1000) {
+      //   this.velocidadeDoPulo = this.alturaDoPulo + 4
+      // }
+      // else {
+      //   this.velocidadeDoPulo = this.alturaDoPulo + 8
+      // }
 
 // console.log(`this.velocidadeDoPulo: ${this.velocidadeDoPulo}`);
 

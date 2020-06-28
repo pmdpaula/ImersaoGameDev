@@ -37,7 +37,7 @@ let personagemInimigoVoador = {
   alturaTela: null,       //** Será calculado mais a frente
   larguraTela: null,      //** Será calculado mais a frente
   posX: 0,
-  distanciaDoChao: 250,
+  distanciaDoChao: 240,
   fatorAlturaTela: 0.15,
   fatorLarguraTela: 1.25,
   spritesImagem: [3, 6],  //** colunas, linhas 
@@ -47,7 +47,7 @@ let personagemInimigoVoador = {
 }
 
 let personagemInimigoVoador2 = {
-  nome: 'gota voadora',
+  nome: 'gota voadora alta',
   nomeImagem: 'imagens/inimigos/gotinha-voadora.png',
   imagem: null,           //** Será calculado mais a frente
   alturaTela: null,       //** Será calculado mais a frente
