@@ -28,6 +28,7 @@ function preload() {
 
 function defCanvasJogo() {
   let isLandscape = windowWidth > windowHeight ? true : false
+  isLandscape = true
 
   if ( isLandscape ) {
     if ( windowWidth >= canvasSizes[0].cnvW ) {
@@ -59,96 +60,5 @@ function defCanvasJogo() {
 
 
 
-function defObjetcsOnCene() {
-
-  personagemHeroi.alturaTela = height * 0.25;
-  personagemHeroi.larguraTela = Math.round(personagemHeroi.alturaTela * 0.815);
-  personagemHeroi.distanciaDoChao = personagemHeroi.distanciaDoChao + posicaoDoChao;
-
-  arrDefInimigos.forEach(inimigo => {
-    inimigo.alturaTela      = height * inimigo.fatorAlturaTela;
-    inimigo.larguraTela     = inimigo.alturaTela * inimigo.fatorLarguraTela;
-    inimigo.velocidade      = inimigo.velocidade + velocidadeInimigos
-
-    if ( canvasSize.cnvCod === 'xl-l' ) {
-      inimigo.distanciaDoChao = inimigo.distanciaDoChao + posicaoDoChao;
-    }
-    else if ( canvasSize.cnvCod === 'lg-l' ) {
-      inimigo.distanciaDoChao = inimigo.distanciaDoChao + posicaoDoChao + 4;
-    }
-    else if ( canvasSize.cnvCod === 'md-l' ) {
-      if ( inimigo.nome === 'troll' ) {
-        inimigo.distanciaDoChao = inimigo.distanciaDoChao + posicaoDoChao + 24 ;
-      }
-      else if ( inimigo.nome === 'gota voadora' )  {
-        inimigo.distanciaDoChao = inimigo.distanciaDoChao + posicaoDoChao - 28 ;
-      }
-      else {
-        inimigo.distanciaDoChao = inimigo.distanciaDoChao + posicaoDoChao + 8;
-      }  
-    }
-    else if ( canvasSize.cnvCod === 'sm-l' ) {
-      if ( inimigo.nome === 'troll' ) {
-        inimigo.distanciaDoChao = inimigo.distanciaDoChao + posicaoDoChao + 24 ;
-      }
-      else if ( inimigo.nome === 'gota voadora' )  {
-        inimigo.distanciaDoChao = inimigo.distanciaDoChao + posicaoDoChao - 28 ;
-      }
-      else {
-        inimigo.distanciaDoChao = inimigo.distanciaDoChao + posicaoDoChao + 8;
-      }
-    
-    }
-
-    if ( typeof inimigo.delay === 'object' ) inimigo.delay = random(inimigo.delay[0], inimigo.delay[1])
-    // console.log(inimigo );
-
-  })
-
-
-
-  arrDefStuffs.forEach(stuff => {
-    if ( canvasSize.cnvCod === 'xl-l' ) {
-      stuff.alturaTela  = height * stuff.fatorAlturaTela;
-      stuff.larguraTela = stuff.alturaTela * stuff.fatorLarguraTela;
-      stuff.distanciaDoChao = stuff.distanciaDoChao + posicaoDoChao;
-  
-      if ( typeof stuff.delay === 'object' ) stuff.delay = random(stuff.delay[0], stuff.delay[1])
-    }
-    if ( canvasSize.cnvCod === 'lg-l' ) {
-      stuff.alturaTela  = height * stuff.fatorAlturaTela;
-      stuff.larguraTela = stuff.alturaTela * stuff.fatorLarguraTela;
-      stuff.distanciaDoChao = stuff.distanciaDoChao + posicaoDoChao - 30;
-  
-      if ( typeof stuff.delay === 'object' ) stuff.delay = random(stuff.delay[0], stuff.delay[1])
-    }
-    if ( canvasSize.cnvCod === 'md-l' ) {
-      stuff.alturaTela  = height * stuff.fatorAlturaTela;
-      stuff.larguraTela = stuff.alturaTela * stuff.fatorLarguraTela;
-      stuff.distanciaDoChao = stuff.distanciaDoChao + posicaoDoChao - 90;
-  
-      if ( typeof stuff.delay === 'object' ) stuff.delay = random(stuff.delay[0], stuff.delay[1])
-    }
-    if ( canvasSize.cnvCod === 'sm-l' ) {
-      stuff.alturaTela  = height * stuff.fatorAlturaTela;
-      stuff.larguraTela = stuff.alturaTela * stuff.fatorLarguraTela;
-      stuff.distanciaDoChao = stuff.distanciaDoChao + posicaoDoChao - 120;
-  
-      if ( typeof stuff.delay === 'object' ) stuff.delay = random(stuff.delay[0], stuff.delay[1])
-    }
-
-  })
-
-
-  telaInicio = new InicioJogo(imagemInicio, fonts);
-  cenario = new CenarioHalloween(20);
-  cenario1 = new CenarioHalloweenPlano1(20);
-  heroi   = new Personagem(personagemHeroi);
-  inimigos = arrDefInimigos.map(inimigo => {
-    return new Inimigo(inimigo)
-  })
-
-  moeda = new Moeda(arrDefStuffs[0])
-}
 
 

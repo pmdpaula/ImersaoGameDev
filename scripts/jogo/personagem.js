@@ -77,30 +77,30 @@ class Personagem extends Animacao {
   }
 
   estaColidindo(inimigo) {
-    stroke('#fae');
-    strokeWeight(4);
-    noFill();
+    // stroke('#fae');
+    // strokeWeight(4);
+    // noFill();
     const precisao = 0.75
-    rect(
-      this.x + (this.largura * (1 - precisao)), // x
-      this.y + (this.altura * (1 - precisao)),  // y
-      this.largura * precisao,                  // largura
-      this.altura * precisao,                   // altura
-      // 40,
-      // 40,
-      // 15,
-      // 15,
-    );
-    rect(
-      inimigo.x + (inimigo.largura * (1 - precisao)),
-      inimigo.y + (inimigo.altura * (1 - precisao)),
-      inimigo.largura * precisao,
-      inimigo.altura * precisao,
-      // 40,
-      // 40,
-      // 15,
-      // 15,
-    );
+    // rect(
+    //   this.x + (this.largura * (1 - precisao)), // x
+    //   this.y + (this.altura * (1 - precisao)),  // y
+    //   this.largura * precisao,                  // largura
+    //   this.altura * precisao,                   // altura
+    //   // 40,
+    //   // 40,
+    //   // 15,
+    //   // 15,
+    // );
+    // rect(
+    //   inimigo.x + (inimigo.largura * (1 - precisao)),
+    //   inimigo.y + (inimigo.altura * (1 - precisao)),
+    //   inimigo.largura * precisao,
+    //   inimigo.altura * precisao,
+    //   // 40,
+    //   // 40,
+    //   // 15,
+    //   // 15,
+    // );
 
 
     const colisao = collideRectRect(

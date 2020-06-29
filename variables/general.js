@@ -1,14 +1,20 @@
 let cnv;
+let jogo;
+let cenaAtual = 'telaInicial';
+let cenas
+let telaInicial
+
 let somDoJogo;
 let somColisao;
 let somGameOver;
-let heroi;
-let pontuacao;
-let moeda;
+// let heroi;
+// let pontuacao;
+// let moeda;
 let isInicio = true;
 let botaoIniciar;
-let idxInimigoAtual = 0;
-let idxDificuldade = 0;
+let botaoGerenciador;
+
+// let cenario, cenario1;
 
 let fontNormal, fontStrong;
 let fonts = [];
@@ -17,16 +23,17 @@ let fonts = [];
 // let inimigoVoador;
 // let inimigoVoador2;
 
-let particles = [];
-let mosquitos = [];
-let moscas = [];
+// let particles = [];
+// let mosquitos = [];
+// let moscas = [];
+// let mosca;
 let imagemInicio;
 let fimJogoGota;
 let imagemFimJogoGota;
 let fimJogoTroll;
 let imagemFimJogoTroll;
 let isLooping = true;
-let inimigos = [];
+// let inimigos = [];
 let stuffs = [];
 let posicaoDoChao = 100;
 let canvasSizes = [
