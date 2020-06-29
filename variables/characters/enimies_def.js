@@ -9,9 +9,9 @@ let personagemInimigo = {
   fatorAlturaTela: 0.1,
   fatorLarguraTela: 1,
   spritesImagem: [4, 7],  //** colunas, linhas 
-  velocidade: 8,
+  velocidade: 2,
   matriz: [],
-  delay: 10,
+  delay: 150,
 }
 
 let personagemInimigoGrande = {
@@ -25,9 +25,9 @@ let personagemInimigoGrande = {
   fatorAlturaTela: 0.4,
   fatorLarguraTela: 1,
   spritesImagem: [5, 6],  //** colunas, linhas 
-  velocidade: 8,
+  velocidade: 0,
   matriz: [],
-  delay: 500,
+  delay: 150,
 }
 
 let personagemInimigoVoador = {
@@ -41,9 +41,9 @@ let personagemInimigoVoador = {
   fatorAlturaTela: 0.15,
   fatorLarguraTela: 1.25,
   spritesImagem: [3, 6],  //** colunas, linhas 
-  velocidade: 8,
+  velocidade: 4,
   matriz: [],
-  delay: [900, 1400],
+  delay: [150, 200],
 }
 
 let personagemInimigoVoador2 = {
@@ -57,9 +57,9 @@ let personagemInimigoVoador2 = {
   fatorAlturaTela: 0.15,
   fatorLarguraTela: 1.25,
   spritesImagem: [3, 6],  //** colunas, linhas 
-  velocidade: 14,
+  velocidade: 7,
   matriz: [],
-  delay: [1500, 2000],
+  delay: [200, 300],
 }
 
 

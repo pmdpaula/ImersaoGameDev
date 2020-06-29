@@ -1,6 +1,7 @@
 class Pontuacao {
   constructor() {
     this.pontos = 0;
+    this.dificuldadeJogo = 0;
   }
 
   exibe() {
@@ -12,10 +13,16 @@ class Pontuacao {
 
   adicionarPontos() {
     this.pontos += 0.05
+    // this.mudaDificuldade()
   }
 
   adicionarPontosMoeda() {
     this.pontos += 10
+    // this.mudaDificuldade()
+  }
+
+  getPontuacao() { 
+    return this.pontos
   }
 
 }

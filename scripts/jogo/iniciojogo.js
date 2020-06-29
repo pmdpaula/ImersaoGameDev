@@ -1,9 +1,8 @@
 class InicioJogo {
-  constructor(imagemInicio, fonts, toogleInicio) {
+  constructor(imagemInicio, fonts) {
     this.imagemInicio = imagemInicio;
     this.fontNormal = fonts[0]
     this.fontStrong = fonts[1]
-    this.toogleInicio = toogleInicio
     this.botaoIniciar = new Clickable();
     this.altura = width;
     this.largura = height;
@@ -137,7 +136,6 @@ class InicioJogo {
     
     this.botaoIniciar.onPress = function(e) {
       toogleInicio()
-      console.log("I have been pressed!");
     }
   
     this.botaoIniciar.draw()
