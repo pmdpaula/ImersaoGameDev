@@ -11,14 +11,18 @@
     <meta charset="utf-8">
 
   </head>
-  <body>  
-    <p class="logo-1">Hispta: A Caça aos Cogumelos</p>
-    <p>Alura - #ImersaoGameDev  202006</p>
-    <div class="quadro_jogo" >
+  <body>
+    <!-- <div>
+      <p class="logo-1">Hispta: A Caça aos Cogumelos</p>
+      <p>Alura - #ImersaoGameDev  202006</p>
+    </div> -->
+    <div>
       <script src="variables/general.js"></script>
       <script src="libs/defaultlib.js"></script>
       <script src="scripts/jogo/load.js"></script>
       <script src="scripts/cenas/iniciojogo.js"></script>
+      <script src="scripts/cenas/pausejogo.js"></script>
+      <script src="scripts/jogo/administradorVida.js"></script>
       <script src="scripts/cenas/jogo.js"></script>
       <script src="scripts/jogo/botaoGerenciador.js"></script>
       <!-- <script src="scripts/jogo/cenario.js"></script> -->
@@ -36,8 +40,11 @@
       <script src="scripts/jogo/fimjogo.js"></script>
       <script src="scripts/jogo/pontuacao.js"></script>
       <script src="scripts/jogo/moeda.js"></script>
+      <script src="scripts/jogo/vida.js"></script>
       <script src="sketch.js"></script>
     </div>
-    <div id="sketch-holder"></div>
+    <div class="quadro_jogo">
+      <div id="sketch-holder"></div>
+    </div>
   </body>
 </html>

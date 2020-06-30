@@ -14,12 +14,14 @@ function windowResized() {
 
 
 
-function toogleLoop() {
+function tooglePause() {
   isLooping = !isLooping;
   if ( isLooping ) {
+    mudaJogo('jogo')
     loop();
   } 
   else {
+    mudaJogo('jogoPause')
     noLoop();
   }
 }

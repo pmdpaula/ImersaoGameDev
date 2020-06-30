@@ -3,9 +3,11 @@ class Jogo {
     this.cenario
     this.cenario1
     this.heroi
+    this.vida
     this.moeda
     this.inimigos = []
     this.inimigoAtual
+    this.mapaInimigos = fita.mapa
     this.idxInimigoAtual = 0
     this.moscas = []
     this.mosca
@@ -43,57 +45,46 @@ class Jogo {
       }
       else if ( canvasSize.cnvCod === 'sm-l' ) {
         if ( inimigo.nome === 'troll' ) {
-          inimigo.distanciaDoChao = inimigo.distanciaDoChao + posicaoDoChao + 24 ;
+          inimigo.distanciaDoChao = inimigo.distanciaDoChao + posicaoDoChao + 32 ;
         }
         else if ( inimigo.nome === 'gota voadora' )  {
-          inimigo.distanciaDoChao = inimigo.distanciaDoChao + posicaoDoChao - 28 ;
+          inimigo.distanciaDoChao = inimigo.distanciaDoChao + posicaoDoChao - 60;
         }
         else {
-          inimigo.distanciaDoChao = inimigo.distanciaDoChao + posicaoDoChao + 8;
+          inimigo.distanciaDoChao = inimigo.distanciaDoChao + posicaoDoChao;
         }
-      
       }
   
       if ( typeof inimigo.delay === 'object' ) inimigo.delay = random(inimigo.delay[0], inimigo.delay[1])
-      // console.log(inimigo );
   
     })
   
   
   
     arrDefStuffs.forEach(stuff => {
+      stuff.alturaTela  = height * stuff.fatorAlturaTela;
+      stuff.larguraTela = stuff.alturaTela * stuff.fatorLarguraTela;
+      if ( typeof stuff.delay === 'object' ) stuff.delay = random(stuff.delay[0], stuff.delay[1])
+
       if ( canvasSize.cnvCod === 'xl-l' ) {
-        stuff.alturaTela  = height * stuff.fatorAlturaTela;
-        stuff.larguraTela = stuff.alturaTela * stuff.fatorLarguraTela;
         stuff.distanciaDoChao = stuff.distanciaDoChao + posicaoDoChao;
-    
-        if ( typeof stuff.delay === 'object' ) stuff.delay = random(stuff.delay[0], stuff.delay[1])
       }
       if ( canvasSize.cnvCod === 'lg-l' ) {
-        stuff.alturaTela  = height * stuff.fatorAlturaTela;
-        stuff.larguraTela = stuff.alturaTela * stuff.fatorLarguraTela;
         stuff.distanciaDoChao = stuff.distanciaDoChao + posicaoDoChao - 30;
-    
-        if ( typeof stuff.delay === 'object' ) stuff.delay = random(stuff.delay[0], stuff.delay[1])
       }
       if ( canvasSize.cnvCod === 'md-l' ) {
-        stuff.alturaTela  = height * stuff.fatorAlturaTela;
-        stuff.larguraTela = stuff.alturaTela * stuff.fatorLarguraTela;
         stuff.distanciaDoChao = stuff.distanciaDoChao + posicaoDoChao - 90;
-    
-        if ( typeof stuff.delay === 'object' ) stuff.delay = random(stuff.delay[0], stuff.delay[1])
       }
       if ( canvasSize.cnvCod === 'sm-l' ) {
-        stuff.alturaTela  = height * stuff.fatorAlturaTela;
-        stuff.larguraTela = stuff.alturaTela * stuff.fatorLarguraTela;
-        stuff.distanciaDoChao = stuff.distanciaDoChao + posicaoDoChao - 120;
-    
-        if ( typeof stuff.delay === 'object' ) stuff.delay = random(stuff.delay[0], stuff.delay[1])
+        stuff.distanciaDoChao = stuff.distanciaDoChao + posicaoDoChao - 130;
+      }
+      else {
+        stuff.distanciaDoChao = stuff.distanciaDoChao + posicaoDoChao - 130;
       }
   
     })
   
-  
+
     this.cenario = new CenarioHalloween(20);
     this.cenario1 = new CenarioHalloweenPlano1(20);
     this.heroi   = new Personagem(personagemHeroi);
@@ -102,6 +93,9 @@ class Jogo {
     })
   
     this.moeda = new Moeda(arrDefStuffs[0])
+    this.vida = new Vida(arrDefStuffs[1])
+
+    administradorVida = new AdministradorVida(fita.configuracoes.vidaMaxima, fita.configuracoes.vidaInicial)
   
     for( let i = 0; i < random(3,6); i++ ){
       this.moscas.push(this.mosca = new Mosca());
@@ -114,52 +108,78 @@ class Jogo {
     this.defObjetcsOnCene()
 
     this.pontuacao = new Pontuacao();
+    jogoPause = new PauseJogo(imagemPause);
     fimJogoGota = new FimJogo(imagemFimJogoGota);
     fimJogoTroll = new FimJogo(imagemFimJogoTroll);
-  
   }
   
+
+
   keyPressed() {
-    if ( key === 'ArrowUp' && isLooping ) this.heroi.pula();
+    if ( key === 'ArrowUp' && isLooping && ( cenaAtual.substring(0,3) !== 'fim' && cenaAtual.substring(0,4) !== 'tela' ) ) this.heroi.pula();
   
-    if ( key === ' ' ) {
-      toogleLoop()
+    if ( key === ' ' && ( cenaAtual.substring(0,3) !== 'fim' && cenaAtual.substring(0,4) !== 'tela' ) ) {
+      tooglePause()
     }
   }
+
+
 
   draw() {
     this.cenario.exibe();
     this.cenario.move();
 
-    this.heroi.exibe();
+    if ( this.heroi.invencivel === 2 ) {
+      this.heroi.exibe2(personagemHeroi.imagemPiscando)
+    }
+    else if ( this.heroi.invencivel === 1 ) {
+      this.heroi.exibe2(personagemHeroi.imagemPiscando2)
+    }
+    else {
+      this.heroi.exibe()
+    }
     this.heroi.aplicaGravidade();
     
     this.moeda.exibe()
     this.moeda.move()
+
+    this.vida.exibe()
+    this.vida.move()
     
-    if ( this.heroi.estaColidindo(this.moeda) ) {
+    if ( this.heroi.estaColidindoStuffs(this.moeda) ) {
       somDaMoeda.play();
-      console.log(`colidindo com ${this.moeda.nome}`);
-      
-      // noLoop();
-      // filter(GRAY);
-      
       this.pontuacao.adicionarPontosMoeda()
       this.moeda.pegaMoeda()
     }
     
+    
+    if ( this.heroi.estaColidindoStuffs(this.vida) ) {
+
+      if ( administradorVida.vidasAtual >= qtdMaxVidas ) {
+        somDaVidaCheia.play()
+      }
+      else {
+        somDaVida.play();
+      } 
+      administradorVida.ganhaVida()
+      this.vida.pegaVida()
+    }
+    
+
     this.inimigoAtual = this.inimigos[this.idxInimigoAtual]
+    // this.inimigoAtual = random(this.inimigos)
     const isInimigoVisivel = this.inimigoAtual.x < - this.inimigoAtual.largura
 
     this.inimigoAtual.exibe()
     this.inimigoAtual.move()
 
     if ( isInimigoVisivel ) {
-      this.idxInimigoAtual++
+      this.idxInimigoAtual = parseInt(random(0, this.inimigos.length))
+      this.inimigoAtual.reaparecer()
+
       if ( this.idxInimigoAtual > this.inimigos.length - 1 ) {
         this.idxInimigoAtual = 0
       }
-      console.log(this.inimigoAtual.nome)
     }
 
 
@@ -177,38 +197,39 @@ class Jogo {
     this.pontuacao.adicionarPontos()
 
 
-    // Verificação de colisão e fim do jogo
+    // Verificação de colisão com inimigo perda de vida e fim do jogo
     if ( this.heroi.estaColidindo(this.inimigoAtual) ) {
-      // fimJogo(inimigoAtual.nome);
-      somColisao.play();
-      console.log(`colidindo com ${this.inimigoAtual.nome}`);
-      
-      // noLoop();
-      // filter(GRAY);
+      administradorVida.perdeVida()
+      this.heroi.tornarInvencivel()
 
-      if ( this.inimigoAtual.nome === 'gota' || this.inimigoAtual.nome === 'gota voadora' ) {
-        // fimJogoGota.exibe();
-        mudaJogo('fimJogoGota')
+      if ( administradorVida.vidasAtual === 0 ) {
+        somBruxaPerdeu.play()
+        if ( this.inimigoAtual.nome === 'gota' || this.inimigoAtual.nome === 'gota voadora' ) {
+          mudaJogo('fimJogoGota')
+        }
+        else {
+          mudaJogo('fimJogoTroll')
+        }
+        somDoJogo.pause();
+        somGameOver.play()
       }
       else {
-        // fimJogoTroll.exibe()
-        mudaJogo('fimJogoTroll')
+        somGritoBruxa.play();
       }
-      // cenario.exibeGray();
-      // this.heroi.exibeGray();
-      // inimigo.exibe();
-      // somDoJogo.pause();
     }
 
 
     this.mudaDificuldade()
 
+    administradorVida.draw()
     
     textAlign(LEFT)
     stroke('darkred')
+    strokeWeight(5)
     fill('white')
     textSize(36)
     text(dificuldadeJogo[this.idxDificuldade].nome , 10, height - 30 )
+    strokeWeight(0)
     
   }
 
@@ -226,7 +247,7 @@ class Jogo {
             inimigo.velocidade = inimigo.velocidadeOriginal + velocidadeInimigos;
           })
   
-          console.log(`Trocou Velocidade ${dificuldade.nome}: ${velocidadeInimigos}`);
+          // console.log(`Trocou Velocidade ${dificuldade.nome}: ${velocidadeInimigos}`);
         }
       }
     })

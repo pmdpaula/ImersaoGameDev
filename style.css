@@ -31,9 +31,9 @@ body {
 
 .quadro_jogo {
   /* display: grid; */
-  /* justify-content: center; */
-  /* align-items: center; */
-  padding-top: 1.5em;
+  justify-content: center;
+  align-items: center;
+  padding-top: 2.5em;
   /* border: 2.0em; */
   border-color: darkgreen;
 }

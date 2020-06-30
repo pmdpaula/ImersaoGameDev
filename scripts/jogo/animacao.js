@@ -5,6 +5,7 @@ class Animacao {
     this.spritesImagem    = personagem.spritesImagem;
     // this.imagem           = loadImage(personagem.NomeImagem);
     this.imagem           = personagem.imagem;
+    this.imagemPiscando   = personagem.imagemPiscando;
     this.largura          = personagem.larguraTela;
     this.altura           = personagem.alturaTela;
     this.x                = personagem.posX;
@@ -14,7 +15,6 @@ class Animacao {
     this.alturaSprite     = this.imagem.height / this.spritesImagem[1];
 
     this.frameAtual       = 0;
-// console.log(personagem);
 
   }
 
@@ -35,20 +35,27 @@ class Animacao {
     this.anima();
   }
 
-  exibeGray() {
-    // this.criaMatriz();
 
-    // image(this.imagem,
-    //       this.x,
-    //       this.y,
-    //       this.largura,
-    //       this.altura,
-    //       this.matriz[this.frameAtual][0],
-    //       this.matriz[this.frameAtual][1],
-    //       this.larguraSprite,
-    //       this.alturaSprite
-    // );
-    // this.imagem;
+  exibe2(imagem) {
+    this.criaMatriz();
+
+    image(imagem,
+          this.x,
+          this.y,
+          this.largura,
+          this.altura,
+          this.matriz[this.frameAtual][0],
+          this.matriz[this.frameAtual][1],
+          this.larguraSprite,
+          this.alturaSprite
+    );
+    
+    this.anima();
+
+  }
+
+
+  exibeGray() {
     filter(GRAY);
   }
 
@@ -85,4 +92,5 @@ class Animacao {
       }      
     }
   }
+
 }

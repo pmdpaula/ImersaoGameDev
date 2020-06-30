@@ -7,35 +7,12 @@ class FimJogo {
     this.y = 0;
     this.fator = width > height ? width * 0.001 : height * 0.0015
     this.botaoReiniciar = new Clickable();
+    this.defBotaoReiniciar    = {
+      resize: [(width / 2.2), (height / 12)],
+      locate: [(width / 2 - (width / 2.2 / 2)), (height / 7 * 5.5)],
+      textSize: (parseInt(height / 30)),
+    }
 
-    if ( canvasSize.cnvCod === 'xl-l' ) {
-      this.defBotaoReiniciar    = {
-        resize: [800, 80],
-        locate: [(width / 2 - 400), height / 1.7],
-        textSize: 30,
-      }
-    }
-    else if ( canvasSize.cnvCod === 'lg-l' ) {
-      this.defBotaoReiniciar    = {
-        resize: [600,70],
-        locate: [(width / 2 - 300), height - 200],
-        textSize: 20,
-      }
-    }
-    else if ( canvasSize.cnvCod === 'md-l' ) {
-      this.defBotaoReiniciar    = {
-        resize: [460,60],
-        locate: [(width / 2 - 230), height - 160],
-        textSize: 18,
-      }
-    }
-    else if ( canvasSize.cnvCod === 'sm-l' ) {
-      this.defBotaoReiniciar    = {
-        resize: [380,50],
-        locate: [(width / 2 - 190), height - 150],
-        textSize: 16,
-      }
-    }
   }
 
   draw() {
@@ -50,9 +27,9 @@ class FimJogo {
       this.y = height / 2 - (this.altura / 2) - 100,
       this.largura,
       this.altura,
-      );
-      
-      this.criaBotaoIniciar()
+    );
+    
+    this.criaBotaoIniciar()
       // noLoop();
     
   }
@@ -77,6 +54,7 @@ class FimJogo {
     this.botaoReiniciar.onPress = function(e) {
       // toogleInicio()
       mudaJogo('telaInicial')
+      // resetGame()
     }
   
     this.botaoReiniciar.draw()
