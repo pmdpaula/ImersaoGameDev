@@ -106,7 +106,7 @@ class Jogo {
   
   setup() {
     this.defObjetcsOnCene()
-
+    
     this.pontuacao = new Pontuacao();
     jogoPause = new PauseJogo(imagemPause);
     fimJogoGota = new FimJogo(imagemFimJogoGota);
@@ -197,7 +197,7 @@ class Jogo {
     this.pontuacao.adicionarPontos()
 
 
-    // Verificação de colisão com inimigo perda de vida e fim do jogo
+    // Verificação de colisÃ£o com inimigo perda de vida e fim do jogo
     if ( this.heroi.estaColidindo(this.inimigoAtual) ) {
       administradorVida.perdeVida()
       this.heroi.tornarInvencivel()

@@ -1,7 +1,7 @@
 {
   "configuracoes": {
     "vidaMaxima": 5,
-    "vidaInicial": 1
+    "vidaInicial": 3
   },
 
   "mapaInimigos": [

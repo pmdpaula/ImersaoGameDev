@@ -95,6 +95,7 @@ class InicioJogo {
     
     this.botaoIniciar.onPress = function() {
       // toogleInicio()
+      // resetGame()
       mudaJogo('jogo')
     }
   

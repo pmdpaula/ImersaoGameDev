@@ -43,7 +43,7 @@ function setup() {
   }
 
   // botaoGerenciador = new BotaoGerenciador('Iniciar', 'Iniciar', width/2, height/5*4)
-  frameRate(30);     // O frameRate padrão é por volta de 30. Caso queiramos mudar, colocamos essa função.
+  frameRate(22);     // O frameRate padrão é por volta de 30. Caso queiramos mudar, colocamos essa função.
   somDoJogo.loop();
 
 }

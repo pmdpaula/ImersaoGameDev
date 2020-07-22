@@ -73,25 +73,25 @@ const dificuldadeJogo = [
   {
     nome:   'Fácil',
     indice: 1,
-    velocidadeInimigos: 8,
+    velocidadeInimigos: 7,
     pontosNaTroca: 100,
   },
   {
     nome:   'Normal',
     indice: 2,
-    velocidadeInimigos: 10,
+    velocidadeInimigos: 8,
     pontosNaTroca: 180,
   },
   {
     nome:   'Difícil',
     indice: 3,
-    velocidadeInimigos: 12,
+    velocidadeInimigos: 10,
     pontosNaTroca: 300,
   },
   {
     nome:   'Muito Difícil',
     indice: 4,
-    velocidadeInimigos: 16,
+    velocidadeInimigos: 14,
     pontosNaTroca: 600,
   },
   {
